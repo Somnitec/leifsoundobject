@@ -100,9 +100,9 @@ void keyReleased()
       println("Done saving.");
 
 
-      String oldname=dataPath("recordingtemp.wav");
+      String oldname=dataPath(dataPath("recordingtemp.wav"));
       File ff=new File(oldname);
-      String newname=dataPath("recording"+currentkey+".wav");
+      String newname=dataPath(dataPath("recording"+currentkey+".wav"));
       ff.renameTo(new File(newname));
       
 
