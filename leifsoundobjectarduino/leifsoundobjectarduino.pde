@@ -97,7 +97,7 @@ void buttonPressed(int button) {
   if (new File(sketchPath(currentButton+"")).mkdirs())println("folder created");
   else println("folder failed");
 
-  file = sketchPath(currentButton+"/leifinstallationrecording-"+day()+"."+month()+"."+year()+"-"+hour()+"."+minute()+"."+second()+".wav");
+  file = sketchPath(currentButton+"/leifinstallationrecording"+currentButton+"-"+day()+"."+month()+"."+year()+"-"+hour()+"."+minute()+"."+second()+".wav");
   recorder = minim.createRecorder(in, sketchPath("temp/temp.wav"));//restart the recording
   recorder.beginRecord();
   println("started recording to "+file);
@@ -144,39 +144,12 @@ void buttonReleased(int button) {
 void keyPressed() {
   //buttonPressed(key);
 
-  /*
-  if(currentkey ==97){
-   beep.rewind();
-   beep.play();
-   }
-   if(currentkey ==115){
-   boop.rewind();
-   boop.play();
-   }
-   println("start recording ");
-   //recorder.endRecord(); //reset the recording
-   
-   file = sketchPath(currentkey+"\\leifinstallationrecording-"+day()+"."+month()+"."+year()+"-"+hour()+"."+minute()+"."+second()+".wav");
-   println(file);
-   
-   createOutput(file);
-   println("created ");
-   recorder = minim.createRecorder(in, file);//restart the recording
-   recorder.beginRecord();
-   */
 }
 
 
 void keyReleased() {
   //buttonReleased(key);
-  /*
-  recorder.endRecord();
-   //save recording
-   recorder.save();
-   
-   player = minim.loadFile(file);
-   player.play();
-   */
+  
 }
 
 
