@@ -4,6 +4,7 @@ import ddf.minim.*;
 import ddf.minim.ugens.*;
 import java.util.Date;
 import java.io.*;
+import java.nio.file.*;
 
 Minim minim;
 AudioInput in;
@@ -32,11 +33,11 @@ void setup()
   in = minim.getLineIn(Minim.STEREO, 2048);
 
   out   = minim.getLineOut();
-  player = minim.loadFile("waste.wav");
+  player = minim.loadFile(sketchPath("temp/temp.wav"));
 
 
-  beep = minim.loadFile("beep.mp3");
-  boop =  minim.loadFile("booper.wav" );
+  //beep = minim.loadFile("beep.mp3");
+  //boop =  minim.loadFile("booper.wav" );
 
 
   //println("the newest file is "+lastFileModified(sketchPath("97")));
@@ -59,9 +60,13 @@ void keyPressed() {
   currentkey = key;
   println(currentkey);
   timer = millis();
+
+  //createOutput(sketchPath(currentkey+"/nothi.ng"));
+  if (new File(sketchPath(currentkey+"")).mkdirs())println("folder created");
+  else println("folder failed");
+
   file = sketchPath(currentkey+"\\leifinstallationrecording-"+day()+"."+month()+"."+year()+"-"+hour()+"."+minute()+"."+second()+".wav");
-  createOutput(file);
-  recorder = minim.createRecorder(in, file);//restart the recording
+  recorder = minim.createRecorder(in, sketchPath("temp/temp.wav"));//restart the recording
   recorder.beginRecord();
   println("started recording to "+file);
 
@@ -94,21 +99,25 @@ void keyReleased() {
     //save recording
     recorder.save();
 
-    recorder = minim.createRecorder(in, "waste.wav");
+    //recorder = minim.createRecorder(in, "waste.wav");
 
     if (millis()-timer>buttonheldtime) {
+
+      Path source = Paths.get(sketchPath("temp/temp.wav"));
+
+      Path destination = Paths.get(file);
+      try {
+        Files.copy(source, destination);
+        println("copied");
+      }
+      catch (IOException e) {
+        println("couldn't copy");
+      }
+
       println("long press -> recorded file");
     } else {
       println("short press -> playback");
-      delay(1000);
 
-      File f = new File(file);
-      if (f.exists()) {
-        f.delete();
-        println("recording deleted "+file);
-      } else println("no file to delete");
-
-      delay(1000);
 
       file=""+lastFileModified(sketchPath(currentkey+""));
       println("playing most recent file "+file);
